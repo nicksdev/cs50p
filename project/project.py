@@ -1,4 +1,6 @@
 import pdfplumber
+import sys
+#import pypdf
 import streamlit as st
 from transformers import BartTokenizer, BartForConditionalGeneration, pipeline
 
@@ -10,11 +12,14 @@ def main():
     uploaded_file = st.file_uploader("Choose a file", type=["pdf"])
 
     if uploaded_file is not None:
+        if pdf_check(uploaded_file) == False:
+            sys.exit("Wrong file type")
+        
+     
 
         if st.button("Summarize"):
             rawtext = extract(uploaded_file)
             summary = model_pipeline(rawtext)
-            print(summary)
             st.info("Summarization Complete")
             st.success(summary)
              
@@ -40,9 +45,18 @@ def extract(file):
         short_text = resize_file(extracted_text)
         return short_text
 
+
 def resize_file(input):
-    output = (input[:3000] + '..') if len(input) > 3000 else input
+    output = (input[:2998] + '..') if len(input) > 2998 else input
+    print(len(output))
     return output
+
+def pdf_check(file):
+    n = file.split('.')
+    if n[1] != "pdf":
+        return False
+    else:
+        return True
 
 if __name__ == "__main__":
     main()
