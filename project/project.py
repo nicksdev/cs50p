@@ -48,7 +48,8 @@ def resize_file(input):
     return output
 
 def pdf_check(file):
-    n = file.split('.')
+    print(file.name)
+    n = file.name.split('.')
     if n[1] != "pdf":
         return False
     else:
