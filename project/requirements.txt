@@ -1,0 +1,11 @@
+torch 
+torchvision 
+torchaudio 
+transformers
+langchain
+langchain-community
+streamlit
+SentencePiece
+accelerate
+pypdf
+pdfplumber
