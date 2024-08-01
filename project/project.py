@@ -1,6 +1,5 @@
 import pdfplumber
 import sys
-#import pypdf
 import streamlit as st
 from transformers import BartTokenizer, BartForConditionalGeneration, pipeline
 
@@ -22,8 +21,7 @@ def main():
             summary = model_pipeline(rawtext)
             st.info("Summarization Complete")
             st.success(summary)
-             
-             
+                 
 def model_pipeline(rawtext):
     summarization_pipeline = pipeline(
         'summarization',
@@ -35,7 +33,6 @@ def model_pipeline(rawtext):
     summarized_text = summary_result[0]['summary_text']
     return summarized_text         
         
-
 def extract(file):
     with pdfplumber.open(file) as pdf:
         extracted_text = ''
@@ -44,7 +41,6 @@ def extract(file):
             extracted_text = extracted_text + '\n' + single_page_text
         short_text = resize_file(extracted_text)
         return short_text
-
 
 def resize_file(input):
     output = (input[:2998] + '..') if len(input) > 2998 else input
