@@ -2,6 +2,11 @@ import sqlite3
 from sqlite3 import Error
 
 
+def main():
+    create_connection("contacts.db")
+
+
+
 
 def create_connection(path):
     connection = None
@@ -13,4 +18,25 @@ def create_connection(path):
 
     return connection
 
-create_connection("contacts.db")
+def create_contact():
+    ...
+
+def read_contact():
+    ...
+
+def update_contact():
+    ...
+
+def delete_contact():
+    ...
+
+
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+
+
