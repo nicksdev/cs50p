@@ -9,17 +9,23 @@ def main():
 
     # Initialise Database
     cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS employees 
+    cursor.execute('''CREATE TABLE IF NOT EXISTS contacts 
                    (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT, company TEXT, position TEXT, email TEXT, phone REAL)''')
     conn.commit()
 
 
 
 
-
-
+    if st.button("Add Test Data"):
+        cursor.execute("INSERT INTO contacts (firstname, lastname, company, position, email, phone) VALUES (?, ?, ?, ?, ?, ?)", ('testfirst', 'testlast', 'testcompany', 'test CEO', 'test@test.com', '0403 123456)'))
+        conn.commit()
+ 
     if st.button("List"):
-        st.info("Display List")
+        cursor.execute("SELECT * FROM contacts")
+        rows = cursor.fetchall()
+        for row in rows:
+        #print(row)
+            st.info(row)
 
     if st.button("Create"):
         st.info("Create Record")
