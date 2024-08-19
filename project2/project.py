@@ -1,10 +1,22 @@
 #import sqlite3
 import streamlit as st
+import csv
 #from sqlite3 import Error
 
 
 def main():
-    ...
+    with open('contacts.csv', 'w', newline='') as file:
+        firstname = "Nick"
+        lastname = "Hughes"
+        company = "Luvian Consulting"
+        phone = "0403 553977"
+        email = "nick@nickhughes.io"
+        writer = csv.writer(file)
+        field = ["firstname", "lastname", "company", "phone", "email"]
+        
+        writer.writerow(field)
+        writer.writerow([firstname, lastname, company, phone, email])
+
 #    create_connection("contacts.db")
 
 
