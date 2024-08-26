@@ -6,7 +6,6 @@ import csv
 
 class Contact:
     def __init__(self, firstname, lastname, company, phone, email):
-        #self.userid = userid
         self.firstname = firstname
         self.lastname = lastname
         self.company = company
@@ -20,13 +19,15 @@ def main():
     input = sys.argv
     contact = get_contact(input)
     crud_call(input,contact,contactid)
-    #print(contact.firstname)
     
 
     # test data: python project.py create Nick Hughes "My Company" 0403111999 nick@email.com
     # get values from prompt
     # generate id
-    # write to csv
+    # Create Contact
+    # Display Contact
+    # Update Contact
+    # Delete Contact
 
 
 
