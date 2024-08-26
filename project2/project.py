@@ -35,11 +35,11 @@ def crud_call(input,contact,contactid):
     if input[1] == "create":
         create_contact(contact,contactid)
     else:
-        print("Unrecognised Input")
+        print("Unrecognised CRUD Operation")
 
 def create_contact(contact,contactid):
-    print(contact.email)
-    print(contactid)
+    if duplicate_check(contact) == False:
+        return
     id = int(contactid) + 1
     with open('contacts.csv', 'a', newline='') as file:
         writer = csv.writer(file)
@@ -85,6 +85,14 @@ def init_csv():
         writer = csv.writer(file)
         writer.writerow(["ID", "Firstname", "Lastname", "Company", "Phone", "Email"])
 
+def duplicate_check(contact):
+    #print("Checking if email exists: " + contact.email)
+    with open('contacts.csv', 'r') as file:
+        for row in file:
+            data = row.strip().split(',')
+            if contact.email == data[5]:
+                print("Email Already Exists")
+                return False
 
 
 
