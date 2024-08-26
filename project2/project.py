@@ -1,4 +1,5 @@
 import sys
+import os
 import csv
 
 
@@ -14,6 +15,7 @@ class Contact:
 
 
 def main():
+    init_csv()
     contactid = init_id()
     input = sys.argv
     contact = get_contact(input)
@@ -37,7 +39,8 @@ def crud_call(input,contact,contactid):
 
 def create_contact(contact,contactid):
     print(contact.email)
-    id = get_contactid(contactid)
+    print(contactid)
+    id = int(contactid) + 1
     with open('contacts.csv', 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([id, contact.firstname, contact.lastname, contact.company, contact.phone, contact.email])
@@ -61,23 +64,27 @@ def get_contact(input):
     contact = Contact(firstname, lastname, company, phone, email)
     return contact
 
-def get_contactid(contactid):
-    print(contactid)
-    contactid = contactid + 1
-    print(contactid)
-    return contactid
 
 def init_id():
-    print("Initialising ID")
-    try:
-        contactid = contactid + 1
-        return contactid
+    try:   
+        z = open("contacts.csv", "r")
+        last_line = z.readlines()[-1]
+        obj = last_line.split(",")
+        z.close()
+        return int(obj[0])
+    except IndexError:
+        return 0
+    except ValueError:
+        return 0
+
         
-    
-    except NameError:
-        print("Setting ID to ZERO")
-        contactid = 0
-        return contactid
+def init_csv():
+    if os.path.isfile("contacts.csv") == False:
+        print("NOT FOUND")
+        file = open("contacts.csv", "w")
+        writer = csv.writer(file)
+        writer.writerow(["ID", "Firstname", "Lastname", "Company", "Phone", "Email"])
+
 
 
 
