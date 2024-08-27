@@ -35,6 +35,9 @@ def crud_call(input,contact,contactid):
 
     if input[1] == "create":
         create_contact(contact,contactid)
+    elif input[1] == "delete":
+        delete_contact(input[6])      
+
     else:
         print("Unrecognised CRUD Operation")
 
@@ -53,8 +56,28 @@ def read_contact():
 def update_contact():
     ...
 
-def delete_contact():
-    ...
+def delete_contact(email):
+    #with open('contacts.csv', 'r') as r_file, open('contacts.csv', 'w', newline='') as w_file:
+    with open('contacts.csv', 'r') as file:
+        fieldnames = ["ID", "Firstname", "Lastname", "Company", "Phone", "Email"]
+        reader = csv.reader(file)
+        writer = csv.DictWriter(file, fieldnames = fieldnames)
+        for i in reader:
+            print(i['Email'])
+            if email == i[5]:
+                ...
+
+
+        #writer = csv.writer(w_file)
+        # for i in reader:
+        #     print("ITERATING")
+        #     print(reader)
+        #     if email == i['email']:
+        #         writer.writerow(i)
+        #         print(input[2] + " " + input[3] + " has been deleted!")
+        #     else:
+        #         print("Contact not found")
+
 
 def get_contact(input):
     firstname = input[2]
@@ -85,6 +108,14 @@ def init_csv():
         file = open("contacts.csv", "w")
         writer = csv.writer(file)
         writer.writerow(["ID", "Firstname", "Lastname", "Company", "Phone", "Email"])
+    else:
+        with open('contacts.csv', 'r') as file:
+            file = file.readlines()
+            if len(file) < 1:
+                w_file = open("contacts.csv", "w")
+                writer = csv.writer(w_file)
+                writer.writerow(["ID", "Firstname", "Lastname", "Company", "Phone", "Email"])
+
 
 def duplicate_check(contact):
     #print("Checking if email exists: " + contact.email)
