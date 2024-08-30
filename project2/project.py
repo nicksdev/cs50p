@@ -1,6 +1,7 @@
 import sys
 import os
 import csv
+import pandas as pd
 
 
 
@@ -56,16 +57,22 @@ def read_contact():
 def update_contact():
     ...
 
+# def delete_contact(email):
+#     #with open('contacts.csv', 'r') as r_file, open('contacts.csv', 'w', newline='') as w_file:
+#     with open('contacts.csv', 'w') as file:
+#         fieldnames = ["ID", "Firstname", "Lastname", "Company", "Phone", "Email"]
+#         reader = csv.DictReader(file)
+#         writer = csv.DictWriter(file, fieldnames = fieldnames)
+#         for i in reader:
+#             print(i['Email'])
+#             if email == i['Email']:
+#                 writer.writerow(i)
+            
 def delete_contact(email):
-    #with open('contacts.csv', 'r') as r_file, open('contacts.csv', 'w', newline='') as w_file:
-    with open('contacts.csv', 'r') as file:
-        fieldnames = ["ID", "Firstname", "Lastname", "Company", "Phone", "Email"]
-        reader = csv.reader(file)
-        writer = csv.DictWriter(file, fieldnames = fieldnames)
-        for i in reader:
-            print(i['Email'])
-            if email == i[5]:
-                ...
+    df = pd.read_csv('contacts.csv', delimiter=',')
+    df = df.loc[df['Email'] != email]
+    df.to_csv('contacts.csv', index=False)
+
 
 
         #writer = csv.writer(w_file)
