@@ -43,7 +43,7 @@ def crud_call(input,contact,contactid):
         print("Unrecognised CRUD Operation")
 
 def create_contact(contact,contactid):
-    if duplicate_check(contact) == False:
+    if duplicate_check(contact.email) == True:
         return
     id = int(contactid) + 1
     with open('contacts.csv', 'a', newline='') as file:
@@ -69,21 +69,13 @@ def update_contact():
 #                 writer.writerow(i)
             
 def delete_contact(email):
-    df = pd.read_csv('contacts.csv', delimiter=',')
-    df = df.loc[df['Email'] != email]
-    df.to_csv('contacts.csv', index=False)
-
-
-
-        #writer = csv.writer(w_file)
-        # for i in reader:
-        #     print("ITERATING")
-        #     print(reader)
-        #     if email == i['email']:
-        #         writer.writerow(i)
-        #         print(input[2] + " " + input[3] + " has been deleted!")
-        #     else:
-        #         print("Contact not found")
+    if duplicate_check(email) == False:
+        print("Contact not found")
+    else:
+        df = pd.read_csv('contacts.csv', delimiter=',')
+        df = df.loc[df['Email'] != email]
+        df.to_csv('contacts.csv', index=False)
+        print("Contact Deleted")
 
 
 def get_contact(input):
@@ -124,14 +116,17 @@ def init_csv():
                 writer.writerow(["ID", "Firstname", "Lastname", "Company", "Phone", "Email"])
 
 
-def duplicate_check(contact):
-    #print("Checking if email exists: " + contact.email)
+def duplicate_check(email):
+    #print("Checking if email exists: " + email)
     with open('contacts.csv', 'r') as file:
         for row in file:
             data = row.strip().split(',')
-            if contact.email == data[5]:
-                print("Email Already Exists")
-                return False
+            #print(data[5])
+            if email == data[5]:
+                #print("Email Exists")
+                return True
+        #print("Email Not Found")
+        return False
 
 
 
