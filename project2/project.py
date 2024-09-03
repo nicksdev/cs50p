@@ -37,7 +37,9 @@ def crud_call(input,contact,contactid):
     if input[1] == "create":
         create_contact(contact,contactid)
     elif input[1] == "delete":
-        delete_contact(input[6])      
+        delete_contact(contact.email)
+    elif input[1] == "update":
+        update_contact(contact)
 
     else:
         print("Unrecognised CRUD Operation")
@@ -48,25 +50,36 @@ def create_contact(contact,contactid):
     id = int(contactid) + 1
     with open('contacts.csv', 'a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([id, contact.firstname, contact.lastname, contact.company, contact.phone, contact.email])
+        writer.writerow([id, contact.firstname, contact.lastname, contact.company, str(contact.phone), contact.email])
     
 
 def read_contact():
     ...
 
-def update_contact():
-    ...
+def update_contact(contact):
+    if duplicate_check(contact.email) == False:
+        print("Contact not found")
+    else:
+        df = pd.read_csv('contacts.csv', delimiter=',')
+        df.loc[df['Email'] == contact.email, ['Firstname', 'Lastname', 'Company', 'Phone']] = contact.firstname, contact.lastname, contact.company, contact.phone,
 
-# def delete_contact(email):
-#     #with open('contacts.csv', 'r') as r_file, open('contacts.csv', 'w', newline='') as w_file:
-#     with open('contacts.csv', 'w') as file:
-#         fieldnames = ["ID", "Firstname", "Lastname", "Company", "Phone", "Email"]
-#         reader = csv.DictReader(file)
-#         writer = csv.DictWriter(file, fieldnames = fieldnames)
-#         for i in reader:
-#             print(i['Email'])
-#             if email == i['Email']:
-#                 writer.writerow(i)
+
+        
+        #result = df[df['Email'] == 'nick@email.com4']
+        #print(result)
+        #df[df['Email'] == 'nick@email.com4'].replace({})
+
+        #print(df)
+#        findme = df['Email'] == 'nick@email.com3'
+        #findme = df.loc['nick@email.com3']
+        #print(findme)
+
+        #print(df.loc[0],'Email')
+        #df = df.loc[df['Email'] != contact.email]
+
+
+        df.to_csv('contacts.csv', index=False)
+        #print("Contact Updated")
             
 def delete_contact(email):
     if duplicate_check(email) == False:
@@ -77,7 +90,6 @@ def delete_contact(email):
         df.to_csv('contacts.csv', index=False)
         print("Contact Deleted")
 
-
 def get_contact(input):
     firstname = input[2]
     lastname = input[3]
@@ -86,7 +98,6 @@ def get_contact(input):
     email = input[6]
     contact = Contact(firstname, lastname, company, phone, email)
     return contact
-
 
 def init_id():
     try:   
@@ -100,7 +111,6 @@ def init_id():
     except ValueError:
         return 0
 
-        
 def init_csv():
     if os.path.isfile("contacts.csv") == False:
         print("NOT FOUND")
@@ -114,7 +124,6 @@ def init_csv():
                 w_file = open("contacts.csv", "w")
                 writer = csv.writer(w_file)
                 writer.writerow(["ID", "Firstname", "Lastname", "Company", "Phone", "Email"])
-
 
 def duplicate_check(email):
     #print("Checking if email exists: " + email)
