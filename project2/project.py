@@ -40,6 +40,8 @@ def crud_call(input,contact,contactid):
         delete_contact(contact.email)
     elif input[1] == "update":
         update_contact(contact)
+    elif input[1] == "read":
+        read_contact(contact)
 
     else:
         print("Unrecognised CRUD Operation")
@@ -60,26 +62,10 @@ def update_contact(contact):
     if duplicate_check(contact.email) == False:
         print("Contact not found")
     else:
-        df = pd.read_csv('contacts.csv', delimiter=',')
-        df.loc[df['Email'] == contact.email, ['Firstname', 'Lastname', 'Company', 'Phone']] = contact.firstname, contact.lastname, contact.company, contact.phone,
-
-
-        
-        #result = df[df['Email'] == 'nick@email.com4']
-        #print(result)
-        #df[df['Email'] == 'nick@email.com4'].replace({})
-
-        #print(df)
-#        findme = df['Email'] == 'nick@email.com3'
-        #findme = df.loc['nick@email.com3']
-        #print(findme)
-
-        #print(df.loc[0],'Email')
-        #df = df.loc[df['Email'] != contact.email]
-
-
+        df = pd.read_csv('contacts.csv', delimiter=',', dtype = str)
+        df.loc[df['Email'] == contact.email, ['Firstname', 'Lastname', 'Company', 'Phone']] = contact.firstname, contact.lastname, contact.company, str(contact.phone)
         df.to_csv('contacts.csv', index=False)
-        #print("Contact Updated")
+
             
 def delete_contact(email):
     if duplicate_check(email) == False:
