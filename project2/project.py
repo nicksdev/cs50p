@@ -55,8 +55,15 @@ def create_contact(contact,contactid):
         writer.writerow([id, contact.firstname, contact.lastname, contact.company, str(contact.phone), contact.email])
     
 
-def read_contact():
-    ...
+def read_contact(contact):
+    if duplicate_check(contact.email) == False:
+        print("Contact not found")
+    else:
+        df = pd.read_csv('contacts.csv', delimiter=',', dtype = str)
+        x = df.loc[df['Email'] == contact.email]
+        print(x)
+
+        
 
 def update_contact(contact):
     if duplicate_check(contact.email) == False:
